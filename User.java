@@ -6,6 +6,7 @@ public class User {
         boolean exit = false;
 
         while (!exit) {
+            login.printLoginInfo();
             System.out.println("  /--------------------------------------------/");
             System.out.println(" / Khaane ki vyavastha me aapka swaagat hai!! /");
             System.out.println("/____________________________________________/");
@@ -41,9 +42,11 @@ public class User {
         }
         scanner.close();
     }
-    public void hello(){
+
+    public static void hello() {
         System.out.println("Welcome User!!");
     }
+
     private void handleAdmin(Scanner scanner, Login login) {
         System.out.print("Enter email:\n>> ");
         String email = scanner.nextLine();
@@ -52,7 +55,6 @@ public class User {
         if (login.getLoginInfo().containsKey(email) && login.getLoginInfo().get(email).equals(password)) {
             System.out.println("Admin login successful.");
             Admin.adminMenu(scanner);
-
         } else {
             System.out.println("Invalid email or password.");
         }
@@ -79,7 +81,7 @@ public class User {
                         String password = scanner.nextLine();
                         if (login.getLoginInfo().containsKey(email) && login.getLoginInfo().get(email).equals(password)) {
                             System.out.println("Customer login successful.");
-                            Customer.customerMenu(scanner);
+                            Customer.customerMenu(scanner, new Customer(email, password));
                         } else {
                             System.out.println("Invalid email or password.");
                         }
@@ -88,12 +90,16 @@ public class User {
                         validChoice = true;
                         System.out.print("Enter email:\n>> ");
                         email = scanner.nextLine();
+                        if (login.getLoginInfo().containsKey(email)) {
+                            System.out.println("Email already registered. Please login.");
+                            break;
+                        }
                         System.out.print("Enter password:\n>> ");
                         password = scanner.nextLine();
-                        login.getLoginInfo().put(email, password);
-                        Login.addToTxt(email, password);
+                        String customerId = "C" + login.getNextCustomerId();
+                        login.addLoginInfo(email, password, customerId);
                         System.out.println("Customer registered successfully.");
-                        Customer.customerMenu(scanner);
+                        Customer.customerMenu(scanner, new Customer(email, customerId));
                         break;
                     case 3:
                         validChoice = true;

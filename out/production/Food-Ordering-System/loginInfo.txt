@@ -1,1 +1,5 @@
-customer2@gmail.com,customer2
+customer@gmail.com,customer,C1
+karan@gmail.com,karan,C2
+asher@gmail.com,asher,C3
+sak@gmail.com,sak,C4
+

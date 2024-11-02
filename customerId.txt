@@ -1,0 +1,5 @@
+Customer email: sunita@gmail.comm, Customer ID: C2
+Customer email: sak@gmail.com, Customer ID: C4
+Customer email: customer@gmail.com, Customer ID: C1
+Customer email: asher@gmail.com, Customer ID: C3
+Customer email: karan@gmail.com, Customer ID: C2

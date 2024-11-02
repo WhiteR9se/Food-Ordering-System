@@ -18,6 +18,11 @@ public class Item {
         this.rating = rating;
     }
 
+    public static void addItemToCart(Item item, String customerId) {
+        Customer customer = Customer.getCustomerById(customerId);
+        customer.getCart().addToCart(item);
+    }
+
     public String getName() {
         return name;
     }
@@ -60,13 +65,12 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", category='" + category + '\'' +
-                ", availability=" + availability +
-                ", rating=" + rating +
-                '}';
+        return "name = " + name + "\n" +
+                "price = " + price + "\n" +
+                "category = " + category + "\n" +
+                "availability = " + availability + "\n" +
+                "rating = " + rating + "\n" +
+                "___________________";
     }
 
     private static final List<Item> ListOfItems = new ArrayList<>(List.of(
@@ -76,7 +80,9 @@ public class Item {
             new Item("Item4", 15.75, "Category3", true, 4.2),
             new Item("Item5", 7.30, "Category2", false, 3.5)
     ));
-
+    public static final List<Item> getListOfItems() {
+        return ListOfItems;
+    }
     public static void viewItems() {
         for (Item item : ListOfItems) {
             System.out.println(item);
@@ -190,7 +196,7 @@ public class Item {
             scanner.next();
         }
     }
-
+    //admin side
     public static void updateItem(Scanner scanner) {
         System.out.print("Enter the name of the item you want to update:\n>> ");
         String name = scanner.nextLine();
