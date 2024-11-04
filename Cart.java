@@ -6,7 +6,9 @@ public class Cart {
     public Cart() {
         items = new HashMap<>();
     }
-
+    public Map<Item, Integer> getItems() {
+        return items;
+    }
     public void addToCartMenu(Scanner scanner) {
         boolean continueAdding = true;
 
@@ -23,7 +25,7 @@ public class Cart {
                 if (item.isAvailability()) {
                     System.out.print("Enter quantity:\n>> ");
                     int quantity = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
+                    scanner.nextLine();
                     items.put(item, items.getOrDefault(item, 0) + quantity);
                     System.out.println("Added " + quantity + " of " + item.getName() + " to the cart.");
                 } else {
@@ -60,6 +62,14 @@ public class Cart {
             System.out.println("Your cart is empty.");
             return;
         }
+        System.out.print("Do you have any special requests? (y/n):\n>> ");
+        String specialRequestResponse = scanner.nextLine();
+        String specialRequest = "";
+
+        if (specialRequestResponse.equalsIgnoreCase("y")) {
+            System.out.print("Enter your special request:\n>> ");
+            specialRequest = scanner.nextLine();
+        }
 
         System.out.print("Enter payment details:\n>> ");
         String paymentDetails = scanner.nextLine();
@@ -68,8 +78,9 @@ public class Cart {
 
         System.out.println("Processing payment and delivery...");
 
-        Orders.addOrder(customerId, new ArrayList<>(items.keySet()));
-
+        Orders.Order newOrder = new Orders.Order("O" + Orders.orderCounter++, customerId, new HashMap<>(items), "Processing", specialRequest);
+        Orders.addOrder(customerId, new HashMap<>(items), specialRequest);
+        Orders.saveOrderToFile(newOrder);
         items.clear();
         System.out.println("Order placed successfully. Thank you for your purchase!");
     }
@@ -86,4 +97,5 @@ public class Cart {
     public void addToCart(Item item) {
         items.put(item, items.getOrDefault(item, 0) + 1);
     }
+
 }

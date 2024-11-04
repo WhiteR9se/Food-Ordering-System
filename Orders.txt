@@ -1,0 +1,14 @@
+Order ID: O1
+Customer ID: C1
+Items: 
+Butter Chicken - Quantity: 1
+Status: Processing
+Special Request: one more chicken 
+-----------------------------------
+Order ID: O3
+Customer ID: C2
+Items: 
+Fried Rice - Quantity: 2
+Status: Processing
+Special Request: please make it tasty
+-----------------------------------

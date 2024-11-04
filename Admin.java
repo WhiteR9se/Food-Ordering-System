@@ -2,7 +2,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Admin extends User {
-    public static Customer[] customers;
 
     public static void adminMenu(Scanner scanner) {
         boolean exit = false;
@@ -14,7 +13,7 @@ public class Admin extends User {
             System.out.println("4) Remove Item");
             System.out.println("5) Print All Customer IDs");
             System.out.println("6) Clear All Customer IDs");
-            System.out.println("7)View All Orders");
+            System.out.println("7) View All Orders");
             System.out.println("8) Update Order Status");
             System.out.println("9) Exit");
             System.out.print(">> ");
@@ -37,7 +36,7 @@ public class Admin extends User {
                         Item.removeItem(scanner);
                         break;
                     case 5:
-                        printAllCustomerIds();
+                        Login.printCustomerIds();
                         break;
                     case 6:
                         Login.clearCustomerIdsOnce();
@@ -63,12 +62,6 @@ public class Admin extends User {
         }
     }
 
-    private static void printAllCustomerIds() {
-        Map<String, String> customerIds = Login.getCustomerIds();
-        for (Map.Entry<String, String> entry : customerIds.entrySet()) {
-            System.out.println("Customer email: " + entry.getKey() + ", Customer ID: " + entry.getValue());
-        }
-    }
 
     public static void hello() {
         System.out.println("Welcome Admin!!");

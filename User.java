@@ -1,12 +1,43 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class User {
+    public static void main(String[] args) {
+        // Retrieve existing customers from loginInfo.txt
+        List<Customer> existingCustomers = new ArrayList<>();
+        try (Scanner fileScanner = new Scanner(new File("loginInfo.txt"))) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    String email = parts[0];
+                    String customerId = parts[2];
+                    existingCustomers.add(new Customer(email, customerId));
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred while reading the file.");
+            e.printStackTrace();
+        }
+
+        // Initialize the customers array
+        Customer.initializeCustomers(existingCustomers);
+
+        // Start the user menu
+        Scanner scanner = new Scanner(System.in);
+        User user = new User();
+        user.userMenu(scanner);
+    }
+
     public void userMenu(Scanner scanner) {
         Login login = new Login();
         boolean exit = false;
 
         while (!exit) {
-            login.printLoginInfo();
+            Customer.printCustomers();
             System.out.println("  /--------------------------------------------/");
             System.out.println(" / Khaane ki vyavastha me aapka swaagat hai!! /");
             System.out.println("/____________________________________________/");

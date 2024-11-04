@@ -9,13 +9,11 @@ import java.util.Scanner;
 public class Login {
     static HashMap<String, String> logininfo = new HashMap<>();
     static HashMap<String, String> customerIds = new HashMap<>();
-    private static int customerIdCounter = 1;
+    private static int customerIdCounter = 0;
     private static boolean isCustomerIdsCleared = false;
 
     Login() {
         logininfo.put("admin", "pass");
-        logininfo.put("customer@gmail.com", "customer");
-        customerIds.put("customer@gmail.com", "C" + customerIdCounter++);
     }
 
     static {
@@ -28,16 +26,39 @@ public class Login {
         }
     }
 
+    public static void printCustomerIds() {
+        for (Map.Entry<String, String> entry : customerIds.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
+    }
+
     public Map<String, String> getLoginInfo() {
         return logininfo;
     }
 
-    public String getCustomerId(String email) {
+    public static String getCustomerId(String email) {
         return customerIds.get(email);
     }
 
     public int getNextCustomerId() {
-        return customerIdCounter++;
+        int maxId = customerIdCounter;
+        try (Scanner scanner = new Scanner(new File("customerId.txt"))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(", ");
+                if (parts.length == 2) {
+                    String idPart = parts[1].split(": ")[1];
+                    int id = Integer.parseInt(idPart.substring(1));
+                    if (id > maxId) {
+                        maxId = id;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred while reading the file.");
+            e.printStackTrace();
+        }
+        return ++maxId;
     }
 
     public void addLoginInfo(String email, String password, String customerId) {

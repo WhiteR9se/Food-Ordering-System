@@ -20,7 +20,12 @@ public class Item {
 
     public static void addItemToCart(Item item, String customerId) {
         Customer customer = Customer.getCustomerById(customerId);
-        customer.getCart().addToCart(item);
+        if (customer != null) {
+            customer.getCart().addToCart(item);
+            System.out.println("Item added to cart.");
+        } else {
+            System.out.println("Customer not found.");
+        }
     }
 
     public String getName() {
@@ -74,11 +79,11 @@ public class Item {
     }
 
     private static final List<Item> ListOfItems = new ArrayList<>(List.of(
-            new Item("Item1", 10.99, "Category1", true, 4.5),
-            new Item("Item2", 5.49, "Category2", false, 3.8),
-            new Item("Item3", 20.00, "Category1", true, 4.9),
-            new Item("Item4", 15.75, "Category3", true, 4.2),
-            new Item("Item5", 7.30, "Category2", false, 3.5)
+            new Item("Paalak Paneer", 10.99, "Veg", true, 4.5),
+            new Item("Aalo", 5.49, "Veg", false, 3.8),
+            new Item("Fried Rice", 20.00, "Veg", true, 4.9),
+            new Item("Butter Chicken", 15.75, "NonVeg", true, 4.2),
+            new Item("Chicken Drumsticks", 7.30, "NonVeg", false, 3.5)
     ));
     public static final List<Item> getListOfItems() {
         return ListOfItems;
@@ -107,7 +112,52 @@ public class Item {
         ListOfItems.add(newItem);
         System.out.println("Item added successfully.");
     }
+    public static void updateQuantity(Scanner scanner) {
+    Customer customer = new Customer();
+    customer.getCart().viewCart();
+    System.out.print("Enter the name of the item you want to update the quantity for:\n>> ");
+    String name = scanner.nextLine();
+    Item item = null;
 
+    for (Item i : ListOfItems) {
+        if (i.getName().equalsIgnoreCase(name)) {
+            item = i;
+            break;
+        }
+    }
+
+    if (item == null) {
+        System.out.println("Item not found.");
+        return;
+    }
+
+    System.out.print("Enter the new quantity:\n>> ");
+    int newQuantity = scanner.nextInt();
+    scanner.nextLine(); // Consume newline
+
+    if (newQuantity < 0) {
+        System.out.println("Quantity cannot be negative.");
+        return;
+    }
+
+    Customer customerId = Customer.getCustomerById("customerId"); // Replace with actual customer ID
+    if (customerId != null) {
+        Cart cart = customerId.getCart();
+        if (cart.getItems().containsKey(item)) {
+            if (newQuantity == 0) {
+                cart.getItems().remove(item);
+                System.out.println("Item removed from the cart.");
+            } else {
+                cart.getItems().put(item, newQuantity);
+                System.out.println("Quantity updated to " + newQuantity + " for item " + item.getName() + ".");
+            }
+        } else {
+            System.out.println("Item not found in the cart.");
+        }
+    } else {
+        System.out.println("Customer not found.");
+    }
+}
     public static void removeItem(Scanner scanner) {
         System.out.print("Enter the name of the item you want to remove:\n>> ");
         String name = scanner.nextLine();
@@ -233,5 +283,6 @@ public class Item {
             System.out.println("Item not found.");
         }
     }
+
 }
 
