@@ -78,9 +78,7 @@ public class Cart {
 
         System.out.println("Processing payment and delivery...");
 
-        Orders.Order newOrder = new Orders.Order("O" + Orders.orderCounter++, customerId, new HashMap<>(items), "Processing", specialRequest);
         Orders.addOrder(customerId, new HashMap<>(items), specialRequest);
-        Orders.saveOrderToFile(newOrder);
         items.clear();
         System.out.println("Order placed successfully. Thank you for your purchase!");
     }
